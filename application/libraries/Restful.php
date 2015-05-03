@@ -1,8 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 class Restful {
-
-
+    private $CI;
+    function __construct()
+    {
+        // Assign by reference with "&" so we don't create a copy
+        $this->CI = &get_instance();
+    }
     public function insert_db ($table_name, $post_data_format, $input_data , $uuid_field_name)
     {
         $CI =   &get_instance(); 
@@ -29,6 +33,17 @@ class Restful {
       $CI->db->insert($table_name, $sql_data);
       echo "success";
   }
+  public function check_fb_token_valid($token){
+
+        $this->CI->load->library("curl");
+        $json = $this->CI->curl->simple_get("https://graph.facebook.com/me?access_token=".$token);
+        if(strlen($json) == 0){
+           return false;
+        }else{
+           return true;
+        }
+  }
+  
 }
 
 ?>

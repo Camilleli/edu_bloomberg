@@ -27,17 +27,30 @@ class NewProgrammeInformation extends CI_Controller {
 	}
 	public function all()
 	{
+		$this->output->set_content_type('application/json');
 		$query = $this->db->get($this->db_table);
 		echo json_encode($query->result());
 	}
 	#for get the staude info by StuID
 	public function get(){
+		$this->output->set_content_type('application/json');
 		if($this->input->get("PID")){
 			$query = $this->db->get_where($this->db_table, array('PID' => $this->input->get("PID")));
 			echo json_encode($query->result());
 		}else{
 			echo "fail";
 		}
+
+	}
+	public function programs_info_with_weighting()
+	{
+		 
+		 $this->load->model("program");
+		 $model = $this->program->from_db_construct ();
+		
+		 $this->output
+    ->set_content_type('application/json')
+    ->set_output(json_encode($model));
 
 	}
 	#for new register user

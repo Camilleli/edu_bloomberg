@@ -27,11 +27,13 @@ class Grades extends CI_Controller {
 	}
 	public function all()
 	{
+		$this->output->set_content_type('application/json');
 		$query = $this->db->get($this->db_table);
 		echo json_encode($query->result());
 	}
 	#for get the staude info by StuID
 	public function get(){
+		$this->output->set_content_type('application/json');
 		if($this->input->get("GDID")){
 			$query = $this->db->get_where($this->db_table, array('GDID' => $this->input->get("GDID")));
 			echo json_encode($query->result());

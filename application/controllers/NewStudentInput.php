@@ -27,11 +27,13 @@ class NewStudentInput extends CI_Controller {
 	}
 	public function all()
 	{
+		$this->output->set_content_type('application/json');
 		$query = $this->db->get($this->db_table);
 		echo json_encode($query->result());
 	}
 	#for get the staude info by StuID
 	public function get(){
+		$this->output->set_content_type('application/json');
 		if($this->input->get("SIID")){
 			$query = $this->db->get_where($this->db_table, array('SIID' => $this->input->get("SIID")));
 			echo json_encode($query->result());

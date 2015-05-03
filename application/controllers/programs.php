@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class programs extends CI_Controller {
+class Programs extends CI_Controller {
 	private $db_table = "NewProgrammeInformation";
 
 	public function index()
@@ -20,19 +20,6 @@ class programs extends CI_Controller {
 		 
 		 
 		 //print_r($model->result());
-	}
-	public function all()
-	{	
-		$query = $this->db->get($this->db_table);
-		echo json_encode($query->result());
-	}
-	public function get(){
-		if($this->input->get("PID")){
-			$query = $this->db->get_where($this->db_table, array('PID' => $this->input->get("PID")));
-			echo json_encode($query->result());
-		} else {
-			echo "fail";
-		}
 	}
 	
 	
