@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Students extends CI_Controller {
-
+	private $db_table = "Students";
 	/**
 	 * Index Page for this controller.
 	 *
@@ -20,24 +20,25 @@ class Students extends CI_Controller {
 	 */
 	public function index()
 	{
-		$query = $this->db->get('Students');
+		$query = $this->db->get($this->db_table);
 		print_r($query->result());
 	}
 	public function all()
 	{
-		$query = $this->db->get('Students');
+		$query = $this->db->get($this->db_table);
 		echo json_encode($query->result());
 	}
 	#for get the staude info by StuID
 	public function get(){
 		if($this->input->get("FbToken")){
-			$query = $this->db->get_where('Students', array('FbToken' => $this->input->get("FbToken")), 1, 1);
+			$query = $this->db->get_where($this->db_table, array('FbToken' => $this->input->get("FbToken")));
 			echo json_encode($query->result());
 		}elseif ($this->input->get("StuID")) {
-			$query = $this->db->get_where('Students', array('StuID' => $this->input->get("StuID")), 1, 1);
+
+			$query = $this->db->get_where($this->db_table, array('StuID' => $this->input->get("StuID")));
 			echo json_encode($query->result());
 		}elseif ($this->input->get("FbId")) {
-			$query = $this->db->get_where('Students', array('FbId' => $this->input->get("FbId")), 1, 1);
+			$query = $this->db->get_where($this->db_table, array('FbId' => $this->input->get("FbId")));
 			echo json_encode($query->result());
 		}else{
 			echo "fail";
@@ -61,27 +62,24 @@ class Students extends CI_Controller {
 		  //   "FirstLoginDate": "2015-05-02"
 		  // }
 		$input_data = json_decode($this->input->post("json-data"));
-		$query = $this->db->get('Students');
+		
+		$data_format = [
+			'FbId',
+			'StuID',
+			'StuName',
+			'StuGender',
+			'StuEmail',
+			'FbId',
+			'FbToken',
+			'FbProfileIcon',
+			'Active',
+			'Birthday',
+			'FirstLoginDate',
+			];
 
-		$new_record_id = max(array_map(function($new_record) { 
-			return $new_record->StuID;
-		}, $query->result()));
-		$data = array(
-			'StuID' => ++$new_record_id,
-			'StuName' => $input_data->StuName ,
-			'StuGender' => $input_data->StuGender ,
-			'StuEmail' =>$input_data->StuEmail,
-			'StuGrade' => $input_data->StuGrade,
-			'FbId' => $input_data->FbId,
-			'FbToken' => $input_data->FbToken,
-			'FbProfileIcon' => $input_data->FbProfileIcon,
-			'Active' => $input_data->Active,
-			'Birthday' => $input_data->Birthday,
-			'FirstLoginDate'=> $input_data->FirstLoginDate
-			);
+		$this->load->library("restful");
 
-		$this->db->insert('Students', $data); 
-		echo "success";
+		$this->restful->insert_db ($this->db_table, $data_format , $input_data ,"StuID");
 		// print_r($input_data->StuName);
 	}
 }
