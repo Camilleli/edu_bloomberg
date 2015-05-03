@@ -20,8 +20,9 @@ class Students extends CI_Controller {
 	 */
 	public function index()
 	{
-		$query = $this->db->get($this->db_table);
-		print_r($query->result());
+		 $this->load->model("student");
+		 $model = $this->student->from_db_construct ("123");
+		 print_r($model->FbId);
 	}
 	public function all()
 	{
