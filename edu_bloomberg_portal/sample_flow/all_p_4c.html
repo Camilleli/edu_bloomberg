@@ -1,0 +1,156 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <link href="./build/nv.d3.css" rel="stylesheet" type="text/css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+            <script src="./build/nv.d3.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+            <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
+            <style>
+            text {
+                font: 12px sans-serif;
+            }
+            svg {
+                display: block;
+            }
+            html, body, #test1, svg {
+                margin: 0px;
+                padding: 0px;
+                height: 100%;
+                width: 100%;
+            }
+            </style>
+        </head>
+        <body class='with-3d-shadow with-transitions'>
+
+            <div id="test1" class="chartWrap">
+                <svg></svg>
+            </div>
+
+            <script>
+
+            var chart;
+            nv.addGraph(function() {
+                chart = nv.models.scatterChart()
+                .showDistX(true)
+                .showDistY(true)
+                .duration(300)
+                .color(d3.scale.category10().range());
+
+                chart.dispatch.on('renderEnd', function(){
+                    console.log('render complete');
+                });
+
+                chart.xAxis.tickFormat(d3.format('.02f'));
+                chart.yAxis.tickFormat(d3.format('.02f'));
+                $data = randomData()
+                d3.select('#test1 svg')
+                .datum($data)
+                .call(chart);
+               
+                nv.utils.windowResize(chart.update);
+                chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+                chart.tooltipContent(function(key,xvalue, y) {
+                    
+                    var data = $data.map(function(all_p){
+                        return all_p.values;
+                    });
+                    data = $.map(data,function(all_p){
+                        return all_p;});
+                    debugger;
+                    var target_data = data.filter(function(dd){ 
+                        
+                        return dd.x == Math.round(xvalue) && Math.round(dd.y ,3) == y
+                    });
+
+                 return '<h2>'+key+Math.round(xvalue)+'</h2><h3>'+ target_data[0].label + "<h3>";
+                 });
+                return chart;
+            });
+
+
+            function randomData(groups, points) { //# groups,# points per group
+                var all_p_4c_url = "http://unicon.com.hk/edu_bloomberg_core/index.php/Programs/all_result?formula=4c1";
+                var all_u_url = "http://unicon.com.hk/edu_bloomberg_core/index.php/NewProgrammeInformation/all";
+
+                var p4c_data  ;
+                var u_data  ;
+                $.ajaxSetup({'async': false});
+                $.getJSON(all_p_4c_url,function(data){
+                    p4c_data =data;
+                });
+                $.getJSON(all_u_url,function(data){
+                    u_data =data;
+                });
+                all_u_code = unique(u_data.map(function(data){ return data.InstID;}));
+                all_p_code_with_u = u_data.map(function(data){ return { u_code: data.InstID , PID: data.PID};});
+
+                $.ajaxSetup({'async': true});
+
+                return output_result = all_u_code.map(function(uu){
+
+                    all_p_in_one_u = all_p_code_with_u.filter(function(row){
+                        return row.u_code == uu;
+                    });
+                    all_p_in_one_u_PID_only = all_p_in_one_u.map(function(pp){
+                        return pp.PID;
+                    });
+
+                    one_u_all_p_record = p4c_data.filter(function(p4c){
+
+                        return $.inArray(p4c.PID, all_p_in_one_u_PID_only) != -1;
+                    });
+
+                    one_u_all_p_record = one_u_all_p_record.map(function(one_u_one_P){
+                     return[{x: one_u_one_P.PID,
+                        y: one_u_one_P.Avg4C2Result, 
+                        size: 0.5,
+                        label:"4C + 2 " ,
+                        shape: "cross",
+                    },
+                    {x: one_u_one_P.PID,
+                        y: one_u_one_P.MIN4C2Result, 
+                        size: 0.5,
+                        label:"MIN 4C + 2 " ,
+                        shape: "cross",
+                    },
+                    {x: one_u_one_P.PID,
+                        y: one_u_one_P.Avg4C1Result, 
+                        size: 0.5,
+                        label:"4C + 1 " ,
+                        shape: "diamond",
+                    },
+                    {x: one_u_one_P.PID,
+                        y: one_u_one_P.MIN4C1Result, 
+                        size: 0.5,
+                        label:"MIN 4C + 1 " ,
+                        shape: "triangle-down",
+                    }];
+                });
+                    one_u_all_p_record = $.map(one_u_all_p_record, function(one_p){
+                        return one_p;
+                    });
+
+                            return{
+                                key: uu , 
+                                values: one_u_all_p_record, 
+                                slope:0,
+                                intercept: 0
+                            }
+                        });
+
+
+       
+    }
+    function unique(array) {
+        return $.grep(array, function(el, index) {
+            return index == $.inArray(el, array);
+        });
+    }
+
+
+    </script>
+</body>
+</html>

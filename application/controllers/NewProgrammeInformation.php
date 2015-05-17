@@ -27,7 +27,7 @@ class NewProgrammeInformation extends CI_Controller {
 	}
 	public function all()
 	{
-		$this->output->set_content_type('application/json');
+		header('Content-Type: application/json');
 		$query = $this->db->get($this->db_table);
 		echo json_encode($query->result());
 	}

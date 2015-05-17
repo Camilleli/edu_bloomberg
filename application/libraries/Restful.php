@@ -9,6 +9,7 @@ class Restful {
     }
     public function insert_db ($table_name, $post_data_format, $input_data , $uuid_field_name)
     {
+
         $CI =   &get_instance(); 
         $sql_data;
         $query =$CI->db->get($table_name);
@@ -23,9 +24,12 @@ class Restful {
                     return $new_record->{$uuid_field_name};
                 }, $query->result())) ;
             }
+            
             $input_data->{$uuid_field_name} = ++$new_record_id;
         }
-        
+        print_r("all the input before insert to db\n");
+        print_r($input_data);
+        print_r("\n");
         foreach ($post_data_format as $key => $value) {
           $sql_data[$value] = $input_data->{$value} ;
             // echo $input_data->{$value};

@@ -29,7 +29,7 @@ class Program extends CI_Model {
        
     }
 
-    function from_db_construct()
+    function fourCPlusOne()
     {	
 		$this->db->SELECT("NewProgrammeInformation.PID, 
 		(NewProgrammeInformation.EnglishWeight * AVG(StuGradeData.GDEng) +
@@ -70,7 +70,7 @@ class Program extends CI_Model {
 		
 		if ( $query -> num_rows() > 0)
 		{
-			return $query->result();
+			return $query;
 		}
 	}
 		

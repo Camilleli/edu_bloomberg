@@ -44,11 +44,12 @@ class NewStudentInput extends CI_Controller {
 	}
 	#for new register user
 	public function post(){
+
 		$input_data = json_decode($this->input->post("json-data"));
 		$data_format = 	[
 		"SIID",
 		"InputDate",
-		"Fbid",
+		"FbId",
 		"Student_Name",
 		"Student_Email",
 		"English_Grade",
@@ -68,10 +69,12 @@ class NewStudentInput extends CI_Controller {
 		"Preference_3",
 		"Preference_4",
 		"Preference_5",
+		"Preference_6",
 			];
-		
+
 		$this->load->library("restful");
-		$this->restful->insert_db ($this->db_table, $data_format , $input_data ,null);
+
+		$this->restful->insert_db ($this->db_table, $data_format , $input_data ,"SIID");
 	
 		// print_r($input_data->StuName);
 	}
