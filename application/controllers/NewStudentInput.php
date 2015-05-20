@@ -37,7 +37,11 @@ class NewStudentInput extends CI_Controller {
 		if($this->input->get("SIID")){
 			$query = $this->db->get_where($this->db_table, array('SIID' => $this->input->get("SIID")));
 			echo json_encode($query->result());
-		}else{
+		}elseif($this->input->get("FbId")){
+			$query = $this->db->get_where($this->db_table, array('FbId' => $this->input->get("FbId")));
+			echo json_encode($query->result());
+		}
+		else{
 			echo "fail";
 		}
 
@@ -74,8 +78,47 @@ class NewStudentInput extends CI_Controller {
 
 		$this->load->library("restful");
 
-		$this->restful->insert_db ($this->db_table, $data_format , $input_data ,"SIID");
-	
-		// print_r($input_data->StuName);
+		$id = $this->restful->insert_db ($this->db_table, $data_format , $input_data ,"SIID");
+		
+		$return = array('id' =>$id );
+
+		$this->restful->json_response($return);
+	}
+
+	public function edit(){
+		$input_data = json_decode($this->input->post("json-data"));
+		$data_format = 	[
+		"SIID",
+		"InputDate",
+		"FbId",
+		"Student_Name",
+		"Student_Email",
+		"English_Grade",
+		"Chinese_Grade",
+		"Maths_Grade",
+		"LS_Grade",
+		"Elective_1",
+		"Elective_1_Grade",
+		"Elective_2",
+		"Elective_2_Grade",
+		"Elective_3",
+		"Elective_3_Grade",
+		"Maths_Extension",
+		"Maths_Extension_Grade",
+		"Preference_1",
+		"Preference_2",
+		"Preference_3",
+		"Preference_4",
+		"Preference_5",
+		"Preference_6",
+			];
+
+		$this->load->library("restful");
+
+		$id = $this->restful->update_db ($this->db_table, $data_format , $input_data ,"SIID",$input_data->SIID);
+		
+		$return = array('id' =>$id );
+
+		$this->restful->json_response($return);
 	}
 }

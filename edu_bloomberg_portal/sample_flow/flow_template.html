@@ -176,6 +176,14 @@
                     console.log("return");
                 return data;
                 });
+
+                $.ajax({
+  type: "POST",
+  url: "http://unicon.com.hk/edu_bloomberg_core/index.php/NewStudentInput/post",
+  data: '',
+  success: success,
+  dataType: "json"
+});
             }
 
         </script>

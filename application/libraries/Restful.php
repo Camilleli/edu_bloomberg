@@ -27,15 +27,25 @@ class Restful {
             
             $input_data->{$uuid_field_name} = ++$new_record_id;
         }
-        print_r("all the input before insert to db\n");
-        print_r($input_data);
-        print_r("\n");
         foreach ($post_data_format as $key => $value) {
           $sql_data[$value] = $input_data->{$value} ;
             // echo $input_data->{$value};
       }
       $CI->db->insert($table_name, $sql_data);
-      echo "success";
+      return $new_record_id;
+  }
+  public function update_db ($table_name, $post_data_format, $input_data , $uuid_field_name, $record_id)
+    {
+
+        $CI =   &get_instance(); 
+        $sql_data;
+        foreach ($post_data_format as $key => $value) {
+          $sql_data[$value] = $input_data->{$value} ;
+            // echo $input_data->{$value};
+      }
+      $CI->db->where($uuid_field_name, $record_id);
+      $CI->db->update($table_name, $sql_data);
+      return $sql_data{$uuid_field_name};
   }
   public function check_fb_token_valid($token){
 
@@ -46,6 +56,14 @@ class Restful {
         }else{
            return true;
         }
+  }
+
+  public function json_response($array){
+
+      header('Content-Type: application/json');
+      $result = array_merge( array("status"=>"success"), $array);
+      echo json_encode($result);
+
   }
   
 }

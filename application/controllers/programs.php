@@ -20,32 +20,16 @@
 			
 			}
 		}
-		
-		
-		/*
-		#for new register user
-		public function post(){
 
-			$input_data = json_decode($this->input->post("json-data"));
-			
-			$data_format = [
-				'FbId',
-				'StuID',
-				'StuName',
-				'StuGender',
-				'StuEmail',
-				'FbId',
-				'FbToken',
-				'FbProfileIcon',
-				'Active',
-				'Birthday',
-				'FirstLoginDate',
-				];
-
-			$this->load->library("restful");
-
-			$this->restful->insert_db ($this->db_table, $data_format , $input_data ,"StuID");
-			// print_r($input_data->StuName);
+		public function all(){
+			$this->db->query("SELECT Program.PName AS PName, Student.PID, Student.GDChi, Student.GDEng, Student.GDMCore, 
+	Student.GDMExt, Student.GDLB, Student.GDE1, Student.GDE2, Student.GDE3, Program.EnglishWeight AS EW, Program.ChineseWeight AS CW,
+	Program.MathsWeight AS MW, Program.LSWeight AS LW
+	FROM stugradedata AS Student
+	INNER JOIN newprogrammeinformation AS Program
+	On Student.pid = Program.pid");
 		}
-		*/
+		
+		
+		
 	}

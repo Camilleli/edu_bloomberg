@@ -28,7 +28,9 @@ class Program extends CI_Model {
         parent::__construct();
        
     }
-
+    function table_for_all(){
+   
+    }
     function fourCPlusOne()
     {	
 		$this->db->SELECT("NewProgrammeInformation.PID, 

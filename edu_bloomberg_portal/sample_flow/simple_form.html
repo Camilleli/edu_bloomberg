@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function myFunction() {
+	
+		debugger;
+   var all  =$.map($(":input"),function(input){
+		return { key: input.name, value:input.value};
+	});
+	$string  = "{";
+
+	$.each(all, function(str){
+		$string = $string +'"'+str.name'":'+'"'+str.value+'",';
+	});
+
+}
+</script>
+
+<form>
+inputdate:<br>
+<input type="text" name="InputDate">
+<br>
+fbid:<br>
+<input type="text" name="FbId">
+<br>
+name:<br>
+<input type="text" name="Student_Name">
+<br>
+email:<br>
+<input type="text" name="Student_Email">
+<br>
+eng grade:<br>
+<input type="text" name="English_Grade">
+<br>
+chinese grade:<br>
+<input type="text" name="Chinese_Grade">
+<br>
+maths_grade:<br>
+<input type="text" name="Maths_Grade">
+<br>
+ls grade:<br>
+<input type="text" name="LS_Grade">
+<br>
+Elective_1:<br>
+<input type="text" name="Elective_1">
+<br>
+Elective_1_Grade:<br>
+<input type="text" name="ElEctive_1_Grade">
+<br>
+
+Elective_2:<br>
+<input type="text" name="Elective_2">
+<br>
+Elective_2_Grade:<br>
+<input type="text" name="ElEctive_2_Grade">
+<br>
+
+Elective_3:<br>
+<input type="text" name="Elective_3">
+<br>
+Elective_3_Grade:<br>
+<input type="text" name="ElEctive_3_Grade">
+<br>
+math_ext:<br>
+<input type="text" name="Maths_Extension">
+<br>
+math ext grade:<br>
+<input type="text" name="Maths_Extension_Grade">
+<br>
+preference 1:<br>
+<input type="text" name="Prederence_1"><br>
+preference 2:<br>
+<input type="text" name="Prederence_2"><br>
+preference 3:<br>
+<input type="text" name="Prederence_3"><br>
+preference 4:<br>
+<input type="text" name="Prederence_4"><br>
+preference 5:<br>
+<input type="text" name="Prederence_5"><br>
+preference 6:<br>
+<input type="text" name="Prederence_6"><br>
+</form>
+<button onclick="myFunction()">Click me</button>
+
+
+
+
+
+</body>
+</html>
