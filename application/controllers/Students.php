@@ -79,11 +79,13 @@ class Students extends CI_Controller {
 			'Active',
 			'Birthday',
 			'FirstLoginDate',
+			'SchoolName',
+			'FriendList'
 			];
 
 		$this->load->library("restful");
 
-		$this->restful->insert_db ($this->db_table, $data_format , $input_data ,"StuID" );
+		$this->restful->insert_db ($this->db_table, $data_format , $input_data ,"StuID");
 		// print_r($input_data->StuName);
 	}
 }

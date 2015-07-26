@@ -17,8 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'edu.bloomberg';
-// $config['base_url'] = 'unicon.com.hk/edu_bloomberg_engine';
+// $config['base_url'] = 'edu.bloomberg';
+$config['base_url'] = 'unicon.com.hk/edu_bloomberg_engine';
 
 /*
 |--------------------------------------------------------------------------

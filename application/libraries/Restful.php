@@ -24,7 +24,6 @@ class Restful {
                     return $new_record->{$uuid_field_name};
                 }, $query->result())) ;
             }
-            
             $input_data->{$uuid_field_name} = ++$new_record_id;
         }
         foreach ($post_data_format as $key => $value) {

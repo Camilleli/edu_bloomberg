@@ -35,7 +35,8 @@ class Grades extends CI_Controller {
 	public function get(){
 		$this->output->set_content_type('application/json');
 		if($this->input->get("GDID")){
-			$query = $this->db->get_where($this->db_table, array('GDID' => $this->input->get("GDID")));
+			$condition = array('GDID' => $this->input->get("GDID"));
+			$query = $this->db->get_where($this->db_table, $condition);
 			echo json_encode($query->result());
 		}else{
 			echo "fail";
